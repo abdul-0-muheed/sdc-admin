@@ -21,13 +21,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full bg-white`}
       >
         <AuthProvider>
           <Navbar />
-          <div className="pt-24 md:pt-20">
+          <div className="pt-20 md:pt-16">
             {children}
           </div>
         </AuthProvider>

@@ -274,8 +274,9 @@ function MobileNavbar({ topDivHidden, user, signOut }) {
                 className={`${topDivHidden ? 'w-10 h-10' : 'w-16 h-16'} transition-all duration-500 ease-in-out transform ${topDivHidden ? 'scale-90' : 'scale-100'} object-contain`}
               />
               <div className="flex items-center ml-2">
+                  <span className="mx-1" style={{ color: '#5B3FFF' }}>|</span>
                 <span className="text-lg font-bold font-playfair" style={{ color: '#5B3FFF' }}>Admin</span>
-                <span className="mx-1" style={{ color: '#5B3FFF' }}>|</span>
+              
               </div>
             </Link>
           </div>
