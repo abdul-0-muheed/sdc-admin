@@ -149,7 +149,7 @@ function DesktopNavbar({ topDivHidden, user, signOut }) {
           <div className="flex items-center">
             <Link href="/admin" className="flex items-center">
               <img
-                src='/sdc-logo.png'
+                src='/logocopy.png'
                 alt='logo'
                 className={`${topDivHidden ? 'w-10 h-10' : 'w-16 h-16'} transition-all duration-500 ease-in-out transform ${topDivHidden ? 'scale-90' : 'scale-100'} object-contain`}
               />
