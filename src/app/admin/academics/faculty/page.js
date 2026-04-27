@@ -116,17 +116,39 @@ export default function FacultyAdmin() {
             </h1>
             <p className="text-gray-600 mt-1">Add, edit, or remove teaching staff members.</p>
           </div>
-          <button 
-            onClick={() => { resetForm(); setModalOpen(true); }}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-lg"
-          >
-            <FaPlus /> Add Member
+          <div className="flex items-center gap-4">
+          <button onClick={() => { setEditingId(null); resetForm(); setModalOpen(true); }} className="bg-blue-600 text-white px-6 py-3 rounded-2xl font-black flex items-center gap-2 hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 uppercase tracking-widest text-sm">
+            <FaPlus /> Add Faculty
           </button>
         </div>
+      </div>
 
-        {/* Table */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
-          <table className="w-full text-left">
+      {/* Shareable Link Section */}
+      <div className="mb-10 bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <h3 className="text-lg font-black text-gray-900 mb-1">Shareable Onboarding Link</h3>
+          <p className="text-sm text-gray-500 font-medium">Share this private link with new faculty members so they can fill their own details.</p>
+        </div>
+        <div className="flex items-center gap-3 w-full md:w-auto">
+          <div className="bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 font-mono text-xs text-blue-600 flex-grow md:w-96 truncate">
+            {typeof window !== 'undefined' ? `${window.location.origin}/academics/faculty-onboarding` : '/academics/faculty-onboarding'}
+          </div>
+          <button 
+            onClick={() => {
+              const url = `${window.location.origin}/academics/faculty-onboarding`;
+              navigator.clipboard.writeText(url);
+              alert('Link copied to clipboard!');
+            }}
+            className="bg-gray-900 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-black transition-all flex items-center gap-2"
+          >
+            Copy Link
+          </button>
+        </div>
+      </div>
+
+      {/* Table */}
+      <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+        <table className="w-full text-left">
             <thead className="bg-gray-100 border-b border-gray-300">
               <tr>
                 <th className="px-6 py-4 text-xs font-black text-gray-700 uppercase tracking-wider">Member</th>

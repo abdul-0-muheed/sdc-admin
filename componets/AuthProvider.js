@@ -39,20 +39,32 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (!loading) {
       const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
+      const isFacultyUser = user?.email === 'faculty@sdc.com';
       
       if (isProtectedRoute && !user) {
         router.push('/signin');
+        return;
+      }
+
+      // If faculty user tries to access admin, redirect to onboarding
+      if (isFacultyUser && pathname.startsWith('/admin')) {
+        router.push('/academics/faculty-onboarding');
+        return;
       }
       
-      // If user is logged in and tries to access signin page, redirect to admin
+      // If user is logged in and tries to access signin page, redirect appropriately
       if (user && pathname === '/signin') {
-        router.push('/admin');
+        if (isFacultyUser) {
+          router.push('/academics/faculty-onboarding');
+        } else {
+          router.push('/admin');
+        }
       }
     }
   }, [user, loading, pathname, router]);
 
   const signIn = async (email, password) => {
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error, data } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -61,7 +73,13 @@ export function AuthProvider({ children }) {
       return { error: error.message };
     }
     
-    router.push('/admin');
+    // Redirect based on user role
+    if (email === 'faculty@sdc.com') {
+      router.push('/academics/faculty-onboarding');
+    } else {
+      router.push('/admin');
+    }
+    
     return { error: null };
   };
 
