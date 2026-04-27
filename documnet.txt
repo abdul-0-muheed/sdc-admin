@@ -1,0 +1,29 @@
+# Implementation Details
+
+## Changes in `src/app/admin/content/banners/page.js`:
+- Removed `subtitle` and `bg_image` from `formData` state initialization and `resetForm` function.
+- Removed the `subtitle` display from the programs table.
+- Removed the `ImageUpload` component and `Subtitle` input field from the 'Add New Program' / 'Edit Program' modal.
+- Cleaned up the grid layout to accommodate the removed fields.
+
+## Database Fix (Supabase SQL):
+The error "new row violates row-level security policy for table 'site_settings'" occurs because there is no policy allowing `INSERT` or `UPDATE` (upsert) on the `site_settings` table. 
+
+Run the following SQL in your Supabase SQL Editor to fix it:
+
+```sql
+-- 1. Ensure RLS is enabled
+ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
+
+-- 2. Allow everyone to read settings (for the public website)
+CREATE POLICY "Allow public read access" ON public.site_settings
+FOR SELECT TO public USING (true);
+
+-- 3. Allow all operations for authenticated users (for the admin panel)
+-- Note: If you are not using Supabase Auth, change 'authenticated' to 'anon'
+CREATE POLICY "Allow admin full access" ON public.site_settings
+FOR ALL TO authenticated USING (true) WITH CHECK (true);
+```
+
+## Improved Prompt for Future Reference:
+"I am facing a Row-Level Security (RLS) error when trying to update the banner title in the admin panel. The error message is: 'Error saving title: new row violates row-level security policy for table site_settings'. Please provide the SQL to fix this in Supabase. Additionally, simplify the 'Add New Program' form in src/app/admin/content/banners/page.js by removing the 'Subtitle' and 'Background Image' fields from both the UI and the data submission logic."
