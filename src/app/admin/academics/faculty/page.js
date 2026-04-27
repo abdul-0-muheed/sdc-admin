@@ -21,8 +21,13 @@ export default function FacultyAdmin() {
     featured: false
   });
 
+  const [onboardingUrl, setOnboardingUrl] = useState('');
+
   useEffect(() => {
     fetchFaculty();
+    if (typeof window !== 'undefined') {
+      setOnboardingUrl(`${window.location.origin}/academics/faculty-onboarding`);
+    }
   }, []);
 
   async function fetchFaculty() {
@@ -131,11 +136,11 @@ export default function FacultyAdmin() {
         </div>
         <div className="flex items-center gap-3 w-full md:w-auto">
           <div className="bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 font-mono text-xs text-blue-600 flex-grow md:w-96 truncate">
-            {typeof window !== 'undefined' ? `${window.location.origin}/academics/faculty-onboarding` : '/academics/faculty-onboarding'}
+            {onboardingUrl || '/academics/faculty-onboarding'}
           </div>
           <button 
             onClick={() => {
-              const url = `${window.location.origin}/academics/faculty-onboarding`;
+              const url = onboardingUrl || `${window.location.origin}/academics/faculty-onboarding`;
               navigator.clipboard.writeText(url);
               alert('Link copied to clipboard!');
             }}
